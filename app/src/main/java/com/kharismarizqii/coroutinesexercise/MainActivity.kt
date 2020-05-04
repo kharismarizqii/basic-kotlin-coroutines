@@ -29,6 +29,12 @@ class MainActivity : AppCompatActivity() {
                 startActivity(it)
             }
         }
+
+        btn_bg_task.setOnClickListener {
+            Intent(this, BackgroundTaskActivity::class.java).also {
+                startActivity(it)
+            }
+        }
     }
 
     private suspend fun setTextString(text: String){
