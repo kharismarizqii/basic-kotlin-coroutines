@@ -3,14 +3,13 @@ package com.kharismarizqii.coroutinesexercise
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
+
+    val JOB_TIMEOUT = 2100L
 
     private var RETURN_1 = "First Api Result"
     private var RETURN_2 = "Second Api Result"
@@ -20,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         btn_crt.setOnClickListener{
             CoroutineScope(IO).launch {
-                fakeApiRequest()
+                fakeApiRequestWithNetworkTimeouts()
             }
         }
     }
@@ -34,6 +33,37 @@ class MainActivity : AppCompatActivity() {
             tv_text.text = text.toString()
         }
     }
+
+    private suspend fun fakeApiRequestWithNetworkTimeouts(){
+        withContext(IO){
+//            val job = launch {
+//                val result1 = getResult1FromApi()
+//                setTextString("Got $result1")
+//
+//                val result2 = getResult2FromApi()
+//                setTextString("Got $result2")
+//            }
+
+            //with timeout
+
+            //the time out work for entire job
+            val job = withTimeoutOrNull(JOB_TIMEOUT){
+                val result1 = getResult1FromApi() //wait
+                setTextString("Got $result1")
+
+                val result2 = getResult2FromApi() //wait
+                setTextString("Got $result2")
+            }//wait
+
+            if (job == null){
+                val cancelMessage = "Canceling jon, the job took longet than $JOB_TIMEOUT ms"
+                println("debug: $cancelMessage")
+                setTextString(cancelMessage)
+            }
+        }
+    }
+
+    //without timeout
     private suspend fun fakeApiRequest() {
         val result1 = getResult1FromApi()
         setTextString(result1)
