@@ -9,7 +9,7 @@ import kotlinx.coroutines.Dispatchers.Main
 
 class MainActivity : AppCompatActivity() {
 
-    val JOB_TIMEOUT = 2100L
+    val JOB_TIMEOUT = 1900L
 
     private var RETURN_1 = "First Api Result"
     private var RETURN_2 = "Second Api Result"
@@ -47,19 +47,32 @@ class MainActivity : AppCompatActivity() {
             //with timeout
 
             //the time out work for entire job
-            val job = withTimeoutOrNull(JOB_TIMEOUT){
-                val result1 = getResult1FromApi() //wait
-                setTextString("Got $result1")
+//            val job = withTimeoutOrNull(JOB_TIMEOUT){
+//                val result1 = getResult1FromApi() //wait
+//                setTextString("Got $result1")
+//
+//                val result2 = getResult2FromApi() //wait
+//                setTextString("Got $result2")
+//            }//wait
+//
+//            if (job == null){
+//                val cancelMessage = "Canceling jon, the job took longet than $JOB_TIMEOUT ms"
+//                println("debug: $cancelMessage")
+//                setTextString(cancelMessage)
+//            }
 
-                val result2 = getResult2FromApi() //wait
-                setTextString("Got $result2")
-            }//wait
+            try {
+                val job = withTimeout(JOB_TIMEOUT){
+                    val result1 = getResult1FromApi() //wait
+                    setTextString("Got $result1")
 
-            if (job == null){
-                val cancelMessage = "Canceling jon, the job took longet than $JOB_TIMEOUT ms"
-                println("debug: $cancelMessage")
-                setTextString(cancelMessage)
+                    val result2 = getResult2FromApi() //wait
+                    setTextString("Got $result2")
+                }
+            }catch (e:TimeoutCancellationException){
+                setTextString(e.message.toString())
             }
+
         }
     }
 
