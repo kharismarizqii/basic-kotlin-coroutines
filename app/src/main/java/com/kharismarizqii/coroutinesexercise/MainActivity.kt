@@ -1,5 +1,6 @@
 package com.kharismarizqii.coroutinesexercise
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_main.*
@@ -20,6 +21,12 @@ class MainActivity : AppCompatActivity() {
         btn_crt.setOnClickListener{
             CoroutineScope(IO).launch {
                 fakeApiRequestWithNetworkTimeouts()
+            }
+        }
+
+        btn_cj.setOnClickListener {
+            Intent(this, CoroutinesJobActivity::class.java).also {
+                startActivity(it)
             }
         }
     }
