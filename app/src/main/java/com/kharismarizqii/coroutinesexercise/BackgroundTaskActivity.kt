@@ -23,8 +23,27 @@ class BackgroundTaskActivity : AppCompatActivity() {
             setNewText("Clicked!")
 
             CoroutineScope(IO).launch {
-              fakeApiRequest()
+//              fakeApiRequest() //2 job both time
+                fakeAsyncApiRequest() //with async await
             }
+        }
+    }
+
+    private fun fakeAsyncApiRequest(){
+        CoroutineScope(IO).launch {
+            val executionTime = measureTimeMillis {
+                val result1: Deferred<String> = async {
+                    println("debug: launching job1 ${Thread.currentThread().name}")
+                    getResult1FromApi()
+                }
+                val result2 = async {
+                    println("debug: launcing job2 ${Thread.currentThread().name}")
+                    getResult2FromApi()
+                }
+                setTextOnMainThread(result1.await())
+                setTextOnMainThread(result2.await())
+            }
+            println("debug: total time elapsed: ${executionTime} ms")
         }
     }
 
