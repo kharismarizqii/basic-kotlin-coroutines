@@ -4,29 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:gravity="center"
-    tools:context=".BackgroundTaskActivity">
+    android:orientation="vertical"
+    tools:context=".SequentialBackgroundActivity">
 
     <Button
-        android:id="@+id/btn_to_sequential"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="to sequential bg task"
-        android:layout_marginTop="16dp"/>
-
-    <Button
-        android:id="@+id/btn_background"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="click me"/>
-
-    <TextView
-        android:id="@+id/tv_background"
+        android:id="@+id/btn_sequential"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        tools:text="text"/>
+        android:text="click me" />
+
+    <TextView
+        android:id="@+id/tv_sequential"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        tools:text="text" />
 
 </LinearLayout>

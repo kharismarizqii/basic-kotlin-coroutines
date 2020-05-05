@@ -1,5 +1,6 @@
 package com.kharismarizqii.coroutinesexercise
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_background_task.*
@@ -9,7 +10,7 @@ import kotlinx.coroutines.Dispatchers.Main
 import kotlin.system.measureTimeMillis
 
 class BackgroundTaskActivity : AppCompatActivity() {
-
+//ALL OF THESE IS PARALLEL
     private val RETURN_1 = "Return 1"
     private val RETURN_2 = "Return 2"
 
@@ -25,6 +26,12 @@ class BackgroundTaskActivity : AppCompatActivity() {
             CoroutineScope(IO).launch {
 //              fakeApiRequest() //2 job both time
                 fakeAsyncApiRequest() //with async await
+            }
+        }
+
+        btn_to_sequential.setOnClickListener {
+            Intent(this, SequentialBackgroundActivity::class.java).also {
+                startActivity(it)
             }
         }
     }
